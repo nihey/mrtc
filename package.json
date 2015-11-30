@@ -1,0 +1,27 @@
+{
+  "name": "mrtc",
+  "version": "0.0.0",
+  "description": "Minimal RTC Wrapper",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nihey/node-boilerplate.git"
+  },
+  "keywords": [
+    "node",
+    "boilerplate",
+    "simple"
+  ],
+  "author": "Nihey Takizawa <nihey.takizawa@gmail.com>",
+  "license": "CC0-1.0",
+  "bugs": {
+    "url": "https://github.com/nihey/mrtc/issues"
+  },
+  "homepage": "https://github.com/nihey/mrtc",
+  "devDependencies": {
+    "eslint": "^1.6.0"
+  }
+}
