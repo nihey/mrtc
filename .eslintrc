@@ -1,0 +1,41 @@
+{
+  "rules": {
+    "indent": [
+      2,
+      2,
+      {"VariableDeclarator": { "var": 2, "let": 2, "const": 3}}
+    ],
+    "linebreak-style": [2, "unix"],
+    "semi": [2, "always"],
+    "comma-dangle": [2, "always-multiline"],
+    "comma-style": [2, "last"],
+    "comma-spacing": [2, {"before": false, "after": true}],
+    "no-multiple-empty-lines": [2, {"max": 1}],
+    "no-nested-ternary": [2],
+    "no-spaced-func": [2],
+    "no-trailing-spaces": [2],
+    "no-console": [0],
+    "no-console-log/no-console-log": 2,
+  },
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "extends": "eslint:recommended",
+  "ecmaFeatures": {
+    modules: true,
+    "experimentalObjectRestSpread": true
+  },
+  "globals": {
+    "require": true,
+    "module": true,
+    "Environment": true,
+    "$": true,
+    "__dirname": false,
+    "process": false
+  },
+  "plugins": [
+    "no-console-log",
+  ],
+}
+

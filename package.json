@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/nihey/mrtc",
   "devDependencies": {
-    "eslint": "^1.6.0"
+    "eslint": "^1.6.0",
+    "eslint-plugin-no-console-log": "^1.0.0"
   }
 }
