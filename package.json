@@ -11,9 +11,10 @@
     "url": "https://github.com/nihey/node-boilerplate.git"
   },
   "keywords": [
-    "node",
-    "boilerplate",
-    "simple"
+    "wrtc",
+    "peer",
+    "webrtc",
+    "RTCPeerConnection"
   ],
   "author": "Nihey Takizawa <nihey.takizawa@gmail.com>",
   "license": "CC0-1.0",
