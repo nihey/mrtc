@@ -2,9 +2,9 @@
   "name": "mrtc",
   "version": "0.0.2",
   "description": "Minimal RTC Wrapper",
-  "main": "./lib/index.js",
+  "main": "./dist/mrtc.min.js",
   "scripts": {
-    "build": "webpack && webpack -p --output-filename mrtc.min.js",
+    "build": "webpack && webpack -p --output-filename mrtc.min.js && gzip -c ./dist/mrtc.min.js > ./dist/mrtc.min.js.gz",
     "watch": "webpack -d --watch",
     "test": "eslint ."
   },
