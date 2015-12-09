@@ -56,7 +56,7 @@ export default class MRTC {
     // Event System
     this.events = {
       signal: [],
-    }
+    };
 
     // Stream Events
     this.events['add-stream'] = [];
@@ -122,9 +122,9 @@ export default class MRTC {
   /* Bind all events related to dataChannel */
   _bindChannel() {
     ['open', 'close', 'message', 'error', 'buffered-amount-low'].forEach(function(action) {
-      this.channel['on' + action.replace(/-/g, '')] = function() {
-        this.trigger('channel-' + action, Array.prototype.slice.call(arguments));
-      }.bind(this);
+      this.channel['on' + action.replace(/-/g, '')] = (...args) => {
+        this.trigger('channel-' + action, [...args]);
+      };
     }, this);
   }
 
@@ -200,7 +200,7 @@ export default class MRTC {
     if (action === 'signal') {
       this._signals.forEach(function(signal) {
         this.trigger('signal', [signal]);
-      });
+      }, this);
     }
   }
 

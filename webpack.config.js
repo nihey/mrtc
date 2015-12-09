@@ -6,9 +6,9 @@ module.exports = {
     path: path.resolve(path.join(__dirname, '.', 'dist')),
     library: 'module',
     libraryTarget: 'umd',
-    filename: 'module.js'
+    filename: 'mrtc.js',
   },
   module: {
-    loaders: [{test: /\.js?$/, exclude: /(node_modules|bower_components)/, loader: 'babel'}]
+    loaders: [{test: /\.js?$/, exclude: /(node_modules|bower_components)/, loader: 'babel'}],
   },
 };

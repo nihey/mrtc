@@ -183,9 +183,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: '_bindChannel',
 	    value: function _bindChannel() {
 	      ['open', 'close', 'message', 'error', 'buffered-amount-low'].forEach(function (action) {
-	        this.channel['on' + action.replace(/-/g, '')] = (function () {
-	          this.trigger('channel-' + action, Array.prototype.slice.call(arguments));
-	        }).bind(this);
+	        var _this2 = this;
+
+	        this.channel['on' + action.replace(/-/g, '')] = function () {
+	          for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	            args[_key] = arguments[_key];
+	          }
+
+	          _this2.trigger('channel-' + action, [].concat(args));
+	        };
 	      }, this);
 	    }
 
@@ -213,15 +219,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'addSignal',
 	    value: function addSignal(signal) {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      if (signal.type === 'offer') {
 	        return this.peer.setRemoteDescription(new this.wrtc.RTCSessionDescription(signal), function () {
-	          _this2.peer.createAnswer(function (description) {
-	            _this2.peer.setLocalDescription(description, function () {
-	              _this2._onSignal(description);
-	            }, _this2.onError);
-	          }, _this2.onError);
+	          _this3.peer.createAnswer(function (description) {
+	            _this3.peer.setLocalDescription(description, function () {
+	              _this3._onSignal(description);
+	            }, _this3.onError);
+	          }, _this3.onError);
 	        }, this.onError);
 	      }
 	      if (signal.type === 'answer') {
@@ -269,7 +275,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (action === 'signal') {
 	        this._signals.forEach(function (signal) {
 	          this.trigger('signal', [signal]);
-	        });
+	        }, this);
 	      }
 	    }
 

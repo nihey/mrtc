@@ -8,12 +8,6 @@
     "linebreak-style": [2, "unix"],
     "semi": [2, "always"],
     "comma-dangle": [2, "always-multiline"],
-    "comma-style": [2, "last"],
-    "comma-spacing": [2, {"before": false, "after": true}],
-    "no-multiple-empty-lines": [2, {"max": 1}],
-    "no-nested-ternary": [2],
-    "no-spaced-func": [2],
-    "no-trailing-spaces": [2],
     "no-console": [0],
     "no-console-log/no-console-log": 2,
   },
@@ -32,7 +26,9 @@
     "Environment": true,
     "$": true,
     "__dirname": false,
-    "process": false
+    "process": false,
+    "describe": false,
+    "it": false,
   },
   "plugins": [
     "no-console-log",
