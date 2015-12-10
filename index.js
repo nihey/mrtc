@@ -208,7 +208,7 @@ export default class MRTC {
    *
    * @param {String} action Which action will have event(s) detached
    * @param {Function} callback Which function will be detached. If none is
-   *                            provided all callbacks all callbacks are detached
+   *                            provided all callbacks are detached
    */
   off(action, callback) {
     if (callback) {
@@ -222,7 +222,7 @@ export default class MRTC {
     this.events[action] = [];
   }
 
-  /* Trigger a event
+  /* Trigger an event
    *
    * @param {String} action Which event will be triggered
    * @param {Array} args Which arguments will be provided to the callbacks
