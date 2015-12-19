@@ -116,6 +116,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      signal: []
 	    };
 
+	    // Has the remote offer/answer been set yet?
+	    this._remoteSet = false;
+	    // Ice candidates generated before remote description has been set
+	    this._ices = [];
+
 	    // Stream Events
 	    this.events['add-stream'] = [];
 
@@ -177,9 +182,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Private
 	   */
 
-	  /* Bind all events related to dataChannel */
+	  /* Emit Ice candidates that were waiting for a remote description to be set */
 
 	  _createClass(MRTC, [{
+	    key: '_flushIces',
+	    value: function _flushIces() {
+	      this._remoteSet = true;
+	      var ices = this._ices;
+	      this._ices = [];
+
+	      ices.forEach(function (ice) {
+	        this.addSignal(ice);
+	      }, this);
+	    }
+
+	    /* Bind all events related to dataChannel */
+	  }, {
 	    key: '_bindChannel',
 	    value: function _bindChannel() {
 	      ['open', 'close', 'message', 'error', 'buffered-amount-low'].forEach(function (action) {
@@ -223,6 +241,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      if (signal.type === 'offer') {
 	        return this.peer.setRemoteDescription(new this.wrtc.RTCSessionDescription(signal), function () {
+	          _this3._flushIces();
 	          _this3.peer.createAnswer(function (description) {
 	            _this3.peer.setLocalDescription(description, function () {
 	              _this3._onSignal(description);
@@ -231,7 +250,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }, this.onError);
 	      }
 	      if (signal.type === 'answer') {
-	        return this.peer.setRemoteDescription(new this.wrtc.RTCSessionDescription(signal), function () {}, this.onError);
+	        return this.peer.setRemoteDescription(new this.wrtc.RTCSessionDescription(signal), function () {
+	          _this3._flushIces();
+	        }, this.onError);
+	      }
+	      if (!this._remoteSet) {
+	        return this._ices.push(signal);
 	      }
 
 	      this.peer.addIceCandidate(new this.wrtc.RTCIceCandidate(signal), function () {}, this.onError);
@@ -283,7 +307,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     *
 	     * @param {String} action Which action will have event(s) detached
 	     * @param {Function} callback Which function will be detached. If none is
-	     *                            provided all callbacks all callbacks are detached
+	     *                            provided all callbacks are detached
 	     */
 	  }, {
 	    key: 'off',
@@ -299,7 +323,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.events[action] = [];
 	    }
 
-	    /* Trigger a event
+	    /* Trigger an event
 	     *
 	     * @param {String} action Which event will be triggered
 	     * @param {Array} args Which arguments will be provided to the callbacks

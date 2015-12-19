@@ -58,6 +58,11 @@ export default class MRTC {
       signal: [],
     };
 
+    // Has the remote offer/answer been set yet?
+    this._remoteSet = false;
+    // Ice candidates generated before remote description has been set
+    this._ices = [];
+
     // Stream Events
     this.events['add-stream'] = [];
 
@@ -119,6 +124,17 @@ export default class MRTC {
    * Private
    */
 
+  /* Emit Ice candidates that were waiting for a remote description to be set */
+  _flushIces() {
+    this._remoteSet = true;
+    let ices = this._ices;
+    this._ices = [];
+
+    ices.forEach(function(ice) {
+      this.addSignal(ice);
+    }, this);
+  }
+
   /* Bind all events related to dataChannel */
   _bindChannel() {
     ['open', 'close', 'message', 'error', 'buffered-amount-low'].forEach(function(action) {
@@ -150,6 +166,7 @@ export default class MRTC {
   addSignal(signal) {
     if (signal.type === 'offer') {
       return this.peer.setRemoteDescription(new this.wrtc.RTCSessionDescription(signal), () => {
+        this._flushIces();
         this.peer.createAnswer(description => {
           this.peer.setLocalDescription(description, () => {
             this._onSignal(description);
@@ -158,7 +175,12 @@ export default class MRTC {
       }, this.onError);
     }
     if (signal.type === 'answer') {
-      return this.peer.setRemoteDescription(new this.wrtc.RTCSessionDescription(signal), () => {}, this.onError);
+      return this.peer.setRemoteDescription(new this.wrtc.RTCSessionDescription(signal), () => {
+        this._flushIces();
+      }, this.onError);
+    }
+    if (!this._remoteSet) {
+      return this._ices.push(signal);
     }
 
     this.peer.addIceCandidate(new this.wrtc.RTCIceCandidate(signal), () => {}, this.onError);
