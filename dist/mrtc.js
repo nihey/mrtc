@@ -102,7 +102,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    _classCallCheck(this, MRTC);
 
-	    options.options = options.options || { iceServers: [] };
+	    options.options = options.options || { iceServers: [{
+	        url: 'stun:23.21.150.121', // Old WebRTC API (url)
+	        urls: [// New WebRTC API (urls)
+	        'stun:23.21.150.121', 'stun:stun.l.google.com:19302', 'stun:stun.services.mozilla.com']
+	      }] };
 
 	    // Normalize dataChannel option into a object
 	    if (options.dataChannel && typeof options.dataChannel === 'boolean') {

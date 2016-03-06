@@ -1,6 +1,6 @@
 {
   "name": "mrtc",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "RTCPeerConnection Wrapper for purists. No dependencies (just ~1.5KB gzipped).",
   "main": "./dist/mrtc.min.js",
   "scripts": {
